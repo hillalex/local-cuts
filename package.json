@@ -1,0 +1,39 @@
+{
+  "name": "local-cuts",
+  "version": "1.0.0",
+  "description": "get information about local government cuts",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "author": "Alex Hill",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "ejs": "^2.5.6",
+    "express": "^4.13.4",
+    "express-robots": "^0.1.6",
+    "path": "^0.12.7",
+    "q": "^1.5.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-batch": "^1.0.5",
+    "gulp-clean-css": "^2.0.4",
+    "gulp-concat": "^2.6.0",
+    "gulp-if": "^2.0.0",
+    "gulp-less": "^3.0.5",
+    "gulp-minify-css": "^1.2.3",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.1.2",
+    "gulp-watch": "^4.3.5",
+    "lazypipe": "^1.0.1",
+    "webpack": "^2.3.3",
+    "webpack-stream": "^3.2.0",
+    "highcharts": "^5.0.10",
+    "jquery": "^3.2.1",
+    "jquery-validation": "^1.16.0",
+    "bootstrap": "^3.3.7"
+  }
+}

@@ -1,0 +1,55 @@
+@import "../bootstrap/bootstrap.less";
+@import "../variables.less";
+@import "../theme.less";
+@import "../slides.less";
+@import "../social.less";
+
+#map {
+  position: fixed !important;
+  z-index:0;
+  top: 0;
+  left: 0;
+  bottom:0;
+  right:0;
+  overflow-y: auto;
+}
+
+.social-share-text {
+  text-align: center;
+  border: 1px solid @gray-base;
+  font-size:14px;
+  padding:10px;
+  margin-bottom: 10px;
+  background-color: #ffffff;
+}
+
+.postcode-box {
+
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid #D4D4D4;
+  padding: 40px;
+
+  h1 {
+    margin: 0px !important;
+    text-align: center;
+    border-bottom: 0px !important;
+  }
+}
+
+#bar-container{
+  margin-top: 20px;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.highcharts-container{
+  margin: auto;
+}
+
+#percentage, .perhousehold {
+  font-size: 18px;
+  font-weight: 700;
+  color: @brand-danger;
+}

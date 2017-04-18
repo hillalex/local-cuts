@@ -1,0 +1,36 @@
+@default-footer-height: 100px;
+
+.footer-dark{
+  background-color: @gray-dark;
+  color: #ffffff;
+}
+
+/*
+   mixin to generate sticky footer
+   use .has-footer class on body if using a footer
+*/
+.sticky-footer(@footer-height: @default-footer-height){
+
+  footer&.sticky-footer {
+    z-index: 999;
+    font-size: @footer-font-size;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: @footer-height;
+
+    span {
+      padding: 5px;
+      position: absolute;
+      bottom: 5px;
+      right: 0;
+      left: 0;
+    }
+  }
+
+  body&.has-footer {
+    /* Margin bottom by footer height */
+    margin-bottom: @footer-height;
+  }
+}

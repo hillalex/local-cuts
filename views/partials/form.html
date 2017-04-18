@@ -1,0 +1,23 @@
+<form method="GET" action="/" id="postcode-lookup" class="form form-horizontal">
+    <div class="form-group">
+
+        <div class="col-xs-12">
+            <div id="error" class="alert alert-danger" style="display: none;">We did not find a local
+                authority associated
+                with this postcode. Are you sure you entered it correctly?
+            </div>
+
+            <input type="text" name="postcode" id="postcode" required="required"
+                   class="form-control input-lg"
+                   placeholder="Postcode"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-xs-12">
+            <input type="submit" class="btn btn-success btn-lg btn-block" id="search"
+                   data-loading-text="Searching..." value="Go"/>
+        </div>
+    </div>
+
+</form>

@@ -1,0 +1,35 @@
+.slide {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height:auto;
+
+  &.with-header {
+    top: 50px;
+  }
+}
+
+.slide-inner {
+  margin-top: 5%;
+  position: relative;
+  z-index: 99;
+  max-width: 700px;
+  height: auto;
+  overflow: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.share {
+  padding: 15px;
+  border: 1px solid @gray;
+  max-width: 700px;
+  height: auto;
+  overflow: auto;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
