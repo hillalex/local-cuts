@@ -7,6 +7,8 @@ var $ = jQuery = require('jquery'),
     errors = require('../../js/lib/errors'),
     Q = require('Q');
 
+jasmine.getFixtures().fixturesPath = 'base/views/partials';
+
 require('../../js/entry.js');
 
 // function to call before each test
@@ -63,13 +65,13 @@ function setUpSpies() {
     });
 }
 
-describe('happiest path', () => {
+describe('happiest path', function() {
 
-    beforeEach((done) => {
+    beforeEach(function(done) {
         beforeEachAsync(done);
     });
 
-    beforeAll(() => {
+    beforeAll(function() {
 
         setUpSpies();
         getPostcode.and.callFake(function () {
@@ -122,33 +124,33 @@ describe('happiest path', () => {
 
     });
 
-    it('should fetch postcode and set map center', () => {
+    it('should fetch postcode and set map center', function() {
         expect(api.getPostcode).toHaveBeenCalledWith('SW8 5PZ');
         expect(map.setMapCenter).toHaveBeenCalledWith(51.294645, -0.347324);
     });
 
-    it('should slide to next slider', () => {
+    it('should slide to next slider', function() {
         expect(slider.slideTo).toHaveBeenCalledWith(1);
     });
 
-    it('should get council and set geoJson', () => {
+    it('should get council and set geoJson', function() {
         expect(api.getCouncils).toHaveBeenCalledWith('SW8 5PZ');
         expect(map.loadGeoJson).toHaveBeenCalledWith('test geojson');
     });
 
-    it('should show county', () => {
+    it('should show county', function() {
         expect(($('.county'))).toHaveText(', CountyName');
     });
 
-    it('should show council name', () => {
+    it('should show council name', function() {
         expect(($($('.council')[0]))).toHaveText('test council name');
     });
 
-    it('should not show no loss mesasge', () => {
+    it('should not show no loss mesasge', function() {
         expect($('#no-loss').is(':visible')).toBe(false);
     });
 
-    it('should draw charts', () => {
+    it('should draw charts', function() {
         expect(charts.drawBarChart).toHaveBeenCalledWith([{"onscode": "E0700001"},
             {"onscode": "E0700002"},
             {"onscode": "E0700003"},
@@ -158,20 +160,20 @@ describe('happiest path', () => {
         expect(charts.drawPieChart).toHaveBeenCalledWith([{value: 12}], "test council name");
     });
 
-    it('should make bar chart container half width', () => {
+    it('should make bar chart container half width', function() {
         expect($('#perhouseholdcontainer')).toHaveClass("col-xs-12");
         expect($('#perhouseholdcontainer')).toHaveClass("col-sm-6");
     });
 
 });
 
-describe('postcode without county', () => {
+describe('postcode without county', function() {
 
-    beforeEach((done) => {
+    beforeEach(function(done) {
         beforeEachAsync(done);
     });
 
-    beforeAll(() => {
+    beforeAll(function(){
 
         setUpSpies();
 
@@ -182,19 +184,19 @@ describe('postcode without county', () => {
         });
     });
 
-    it('should not show county', () => {
+    it('should not show county', function() {
 
         expect(($('.county'))).toHaveText('');
     });
 });
 
-describe('postcode in Wales', () => {
+describe('postcode in Wales', function() {
 
-    beforeEach((done) => {
+    beforeEach(function(done) {
         beforeEachAsync(done);
     });
 
-    beforeAll(() => {
+    beforeAll(function() {
 
         setUpSpies();
 
@@ -211,22 +213,22 @@ describe('postcode in Wales', () => {
         spyOn(config, 'noEnglandMessage').and.returnValue('no england message');
     });
 
-    it('should not slide to results', () => {
+    it('should not slide to results', function() {
         expect(slider.slideTo).not.toHaveBeenCalled();
     });
 
-    it('should show no England message', () => {
+    it('should show no England message', function() {
         expect($('#error')).toHaveText('no england message');
     });
 });
 
-describe('council with no cuts', () => {
+describe('council with no cuts', function() {
 
-    beforeEach((done) => {
+    beforeEach(function(done) {
         beforeEachAsync(done);
     });
 
-    beforeAll(() => {
+    beforeAll(function() {
 
         setUpSpies();
 
@@ -249,33 +251,33 @@ describe('council with no cuts', () => {
         });
     });
 
-    it('should show no loss mesasge', () => {
+    it('should show no loss mesasge', function() {
         expect($('#no-loss').is(':visible')).toBe(true);
     });
 
-    it('should make bar chart container full width', () => {
+    it('should make bar chart container full width', function() {
         expect($('#perhouseholdcontainer')).toHaveClass("col-xs-12");
         expect($('#perhouseholdcontainer')).not.toHaveClass("col-sm-6");
     });
 
 });
 
-describe('no council found', () => {
+describe('no council found', function() {
 
-    beforeEach((done) => {
+    beforeEach(function(done) {
         beforeEachAsync(done);
     });
 
-    beforeAll(() => {
+    beforeAll(function() {
         setUpSpies();
         spyOn(config, 'noResultsMessage').and.returnValue('no results message');
     });
 
-    it('should not slide to results', () => {
+    it('should not slide to results', function() {
         expect(slider.slideTo).not.toHaveBeenCalled();
     });
 
-    it('should show no England message', () => {
+    it('should show no England message', function() {
         expect($('#error')).toHaveText('no results message');
     });
 

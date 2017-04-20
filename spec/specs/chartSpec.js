@@ -3,9 +3,11 @@ var $ = jQuery = require('jquery'),
     drawPieChart = require('../../js/lib/charts').drawPieChart,
     format = require('../../js/lib/format');
 
-describe('drawBarChart', () => {
+jasmine.getFixtures().fixturesPath = 'base/views/partials';
 
-    beforeEach((done) => {
+describe('drawBarChart', function() {
+
+    beforeEach(function(done) {
 
         loadFixtures('results.html');
 
@@ -53,10 +55,10 @@ describe('drawBarChart', () => {
     })
 });
 
-describe('drawPieChart', () => {
+describe('drawPieChart', function() {
 
 
-    beforeEach((done)=>{
+    beforeEach(function(done) {
 
         loadFixtures('results.html');
 

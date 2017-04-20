@@ -50,18 +50,3 @@ gulp.task('watch-bundle', function () {
         }))
         .pipe(gulp.dest('./js/'));
 });
-
-
-/**
- * compile the test js
- */
-gulp.task('watch-test-bundle', function () {
-    return gulp.src('./spec/entry.js')
-        .pipe(webpackStream({
-            output: {
-                filename: 'bundle.js'
-            },
-            watch: true
-        }, webpack))
-        .pipe(gulp.dest('./spec/'));
-});
