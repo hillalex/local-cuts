@@ -14,4 +14,5 @@
 ## Tests
 - Tests are written in Jasmine.
 - Tests are run by Karma with a Webpack preprocessor - details in ./karma.config.js
-- Either npm install karma-cli -g and then run karma start in the app directory, or just run npm test
+- To run tests once run npm test.
+- For developing, npm install karma-cli -g and then run karma start in the app directory.

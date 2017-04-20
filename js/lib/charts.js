@@ -97,6 +97,7 @@ exports.drawPieChart = function (data, name) {
 
     // data comes back negative if cuts, but we want the absolute value here
     var percentage = Math.abs(data[0].value);
+    percentage = Math.round(parseFloat(percentage));
 
     // build the chart
     $pieContainer.highcharts({
@@ -115,7 +116,7 @@ exports.drawPieChart = function (data, name) {
             formatter: function () {
                 if (this.key === "Area")
                     return name + " council funding";
-                else return this.percentage + '% cuts';
+                else return percentage + '% cuts';
             }
         },
         plotOptions: {
@@ -135,12 +136,12 @@ exports.drawPieChart = function (data, name) {
             colorByPoint: true,
             data: [{
                 name: 'Cuts',
-                y: Math.round(percentage),
+                y: percentage,
                 selected: true
             },
                 {
                     name: 'Area',
-                    y: 100 - Math.round(percentage),
+                    y: 100 - percentage,
                     selected: true,
                     sliced: true,
                 }]
@@ -148,7 +149,7 @@ exports.drawPieChart = function (data, name) {
     });
 
     // populate percentage amount and show
-    $percentage.text(Math.round(parseFloat(percentage)) + '%');
+    $percentage.text(percentage + '%');
     $percentagecontainer.show();
 
 };

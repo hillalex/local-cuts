@@ -10330,18 +10330,18 @@ return jQuery;
 /* 1 */
 /***/ (function(module, exports) {
 
-exports._map = false;
-exports._features = [];
+var _map = false;
+var _features = [];
 
 exports.loadGeoJson = function (geom) {
     var geoJson = geometryToGeoJson(geom);
 
     var interval = setInterval(function () {
-        if (exports._map) {
+        if (_map) {
             // NOTE: This uses cross-domain XHR, and may not work on older browsers.
-            exports._features = exports._map.data.addGeoJson(geoJson);
+            _features = _map.data.addGeoJson(geoJson);
 
-            exports._map.data.setStyle({
+            _map.data.setStyle({
                 fillColor: 'purple',
                 strokeWeight: 1,
                 strokeColor: 'purple'
@@ -10356,9 +10356,9 @@ exports.loadGeoJson = function (geom) {
 exports.removeGeoJson = function () {
 
     var interval = setInterval(function () {
-        if (exports._map) {
-            exports._map.data.remove(exports._features[0]);
-            exports._map.data.setStyle({
+        if (_map) {
+            _map.data.remove(_features[0]);
+            _map.data.setStyle({
                 fillColor: 'purple',
                 strokeWeight: 1,
                 strokeColor: 'purple'
@@ -10373,9 +10373,9 @@ exports.removeGeoJson = function () {
 exports.setMapCenter = function (lat, lng) {
 
    var interval = setInterval(function () {
-        if (exports._map) {
-            exports._map.panTo({lat: lat, lng: lng});
-            exports._map.setZoom(13);
+        if (_map) {
+            _map.panTo({lat: lat, lng: lng});
+            _map.setZoom(13);
             clearInterval(interval);
         }
 
@@ -10399,7 +10399,7 @@ function geometryToGeoJson(geo) {
 // function for google maps callback
 window.initMap = function () {
 
-    exports._map = new google.maps.Map(document.getElementById('map'), {
+    _map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 52.948158, lng: -1.5341047},
         zoom: 10
     });
@@ -10798,6 +10798,7 @@ exports.drawPieChart = function (data, name) {
 
     // data comes back negative if cuts, but we want the absolute value here
     var percentage = Math.abs(data[0].value);
+    percentage = Math.round(parseFloat(percentage));
 
     // build the chart
     $pieContainer.highcharts({
@@ -10816,7 +10817,7 @@ exports.drawPieChart = function (data, name) {
             formatter: function () {
                 if (this.key === "Area")
                     return name + " council funding";
-                else return this.percentage + '% cuts';
+                else return percentage + '% cuts';
             }
         },
         plotOptions: {
@@ -10836,12 +10837,12 @@ exports.drawPieChart = function (data, name) {
             colorByPoint: true,
             data: [{
                 name: 'Cuts',
-                y: Math.round(percentage),
+                y: percentage,
                 selected: true
             },
                 {
                     name: 'Area',
-                    y: 100 - Math.round(percentage),
+                    y: 100 - percentage,
                     selected: true,
                     sliced: true,
                 }]
@@ -10849,7 +10850,7 @@ exports.drawPieChart = function (data, name) {
     });
 
     // populate percentage amount and show
-    $percentage.text(Math.round(parseFloat(percentage)) + '%');
+    $percentage.text(percentage + '%');
     $percentagecontainer.show();
 
 };

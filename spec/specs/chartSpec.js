@@ -62,6 +62,9 @@ describe('drawPieChart', function() {
 
         loadFixtures('results.html');
 
+        spyOn(jQuery.fn, 'highcharts');
+        drawPieChart([{'type': 'percentagecuts', value: "-11.9999"}], 'TestCouncil');
+
         setTimeout(function () {
             done();
         }, 500);
@@ -69,21 +72,41 @@ describe('drawPieChart', function() {
 
 
     it('should populate percentage', function () {
-        drawPieChart([{'type': 'percentagecuts', value: -12.3}], 'TestCouncil');
+
         var percentage = $("#percentage").html();
         expect(percentage).toEqual('12%');
     });
 
+    it('should show rounded percentage as label on chart', function () {
+
+        expect(jQuery.fn.highcharts).toHaveBeenCalledWith(jasmine.objectContaining({series: [{
+            name: '',
+            borderColor: "#f5f5f5",
+            colors: ["#FF5A5E", "#5bc0de"],
+            colorByPoint: true,
+            data: [{
+                name: 'Cuts',
+                y: 12,
+                selected: true
+            },
+                {
+                    name: 'Area',
+                    y: 88,
+                    selected: true,
+                    sliced: true,
+                }]
+        }]}))
+    });
+
     it('should show percentage container when loss', function () {
-        drawPieChart([{'type': 'percentagecuts', value: -12.3}], 'TestCouncil');
 
         var display = $("#percentagecontainer").css('display');
         expect(display).toEqual('block');
     });
 
     it('should not show percentage container when no loss', function () {
-        drawPieChart([{'type': 'percentagecuts', value: 12.3}], 'TestCouncil');
 
+        drawPieChart([{'type': 'percentagecuts', value: "12.3"}], 'TestCouncil');
         var display = $("#percentagecontainer").css('display');
         expect(display).toEqual('none');
     });
