@@ -10601,7 +10601,7 @@ process.umask = function() { return 0; };
 /* WEBPACK VAR INJECTION */(function(process) { var config = {
     allowedOrigins : [],
     googleMapsAPIKey  : 'AIzaSyCAyBZQY7rsMwgQYwoYexWBTzIY_BnwH9U',
-    geocoderAPI : "https://labour-geocoder.herokuapp.com",
+    geocoderAPI : "https://labour-geocoder-demo.herokuapp.com",
     env : process.env['NODE_ENV'] || 'development',
     noEnglandMessage : "Due to the differing ways that local spending is allocated across the UK, this calculator is restricted to councils in England.",
     noResultsMessage : "We did not find a local authority associated with this postcode. Are you sure you entered it correctly?"
@@ -10656,6 +10656,7 @@ exports.getCouncils = function (postcode) {
     return $.when($.getJSON(searchUrl + "localauthority/" + postcode + '?location=true'),
         $.getJSON(searchUrl + "localauthorities/" + postcode))
         .then(function (councilData, nearbyCouncilsData) {
+            // each argument here is in the form [data, status, jqXHR] so we just want to return the first element of each
             return {council: councilData[0], nearbyCouncils: nearbyCouncilsData[0]}
         });
 };
@@ -10717,17 +10718,19 @@ exports.drawBarChart = function (councils, data) {
     var labels = [];
     var dataPoints = [];
 
+    // create labels and data for the bar chart's columns
     for (var i = 0; i < data.length; i++) {
         labels.push(councils[i].name);
         dataPoints.push(Math.round(data[i].value));
     }
 
-    var perhouseholdValue = -1 * Math.round(data[0].value);
+    // data comes back negative if cuts, so get the absolute value for display
+    var absoluteValue = Math.abs(Math.round(data[0].value));
 
-    if (perhouseholdValue > 0)
-        $perhousehold.html('<span class="perhousehold">£' + format.numberWithCommas(perhouseholdValue) + "</span> less");
+    if (data[0].value < 0)
+        $perhousehold.html('<span class="perhousehold">£' + format.numberWithCommas(absoluteValue) + "</span> less");
     else
-        $perhousehold.html("£" + format.numberWithCommas(-1 * perhouseholdValue) + " more");
+        $perhousehold.html("£" + format.numberWithCommas(absoluteValue) + " more");
 
     $barContainer.highcharts({
         title: '',
@@ -10788,13 +10791,15 @@ exports.drawPieChart = function (data, name) {
     $percentage = $('#percentage');
 
     if (data.length === 0 || data[0].value > 0) {
+        // no cuts to this council, so don't show pie chart
         $percentagecontainer.hide();
         return;
     }
 
-    var percentage = -1 * data[0].value;
+    // data comes back negative if cuts, but we want the absolute value here
+    var percentage = Math.abs(data[0].value);
 
-    // Build the chart
+    // build the chart
     $pieContainer.highcharts({
         chart: {
             plotBackgroundColor: "#f5f5f5",
@@ -10843,7 +10848,7 @@ exports.drawPieChart = function (data, name) {
         }]
     });
 
-    // populate percentage amount
+    // populate percentage amount and show
     $percentage.text(Math.round(parseFloat(percentage)) + '%');
     $percentagecontainer.show();
 
@@ -10857,14 +10862,18 @@ module.exports = exports;
 
 var $ = __webpack_require__(0),
     map = __webpack_require__(1),
-    allSlides;
+    $allSlides;
 
 exports.init = function() {
-    allSlides = $('div.container');
+
+    $allSlides = $('div.container');
+
+    // start off on slide 0
     history.replaceState({slide: 0}, "slide 0", "?slide=0");
 
     $(window).on("popstate", function (e) {
 
+        // allow for browser back navigation
         var i = e.originalEvent.state.slide || 0;
         exports.slideTo(i);
 
@@ -10874,11 +10883,11 @@ exports.init = function() {
 exports.slideTo = function(i){
 
     // show appropriate slide
-    allSlides.addClass('hide');
+    $allSlides.addClass('hide');
     $('#slide-' + i).removeClass('hide');
 
     if (i === 0) {
-        // reset map
+        // reset map to center of England
         map.setMapCenter(52.948158, -1.5341047);
         map.removeGeoJson();
     }
@@ -12629,6 +12638,7 @@ __webpack_require__(8);
 
 window.init = function() {
 
+    // initialise slider to allow for browser back navigation
     slider.init();
 
     // set up DOM variables
@@ -12758,34 +12768,16 @@ window.init = function() {
 /* 11 */
 /***/ (function(module, exports) {
 
-var formatter = {
+var format = {
 
     // returns a nice, human readable number string
     numberWithCommas: function (x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    },
-
-    // returns only the first word in a multi word string
-    firstWord: function(x){
-        var y = x.split(" ");
-        return y[0];
-    },
-
-    // return the string beginning with a lower case character
-    lowercaseFirstLetter: function(x){
-        y = x.trim();
-        var first = y.substring(0, 1).toLowerCase();
-        return first + y.substring(1, y.length);
-    },
-
-    // changes a space separated string into a - separated one
-    nameToSlug: function(x){
-        return x.replace(" ", "-");
     }
 
 };
 
-module.exports = formatter;
+module.exports = format;
 
 /***/ }),
 /* 12 */
